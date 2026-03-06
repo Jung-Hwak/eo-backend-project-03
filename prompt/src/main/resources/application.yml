@@ -1,1 +1,54 @@
-spring.application.name=prompt
+spring:
+  application:
+    name: prompt
+
+  datasource:
+    driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+    url: jdbc:log4jdbc:h2:~/test;AUTO_SERVER=TRUE;TIME_ZONE=Asia/Seoul
+    username: sa
+    password:
+
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+  jpa:
+    database: h2
+    open-in-view: false
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        time_zone: Asia/Seoul
+        show_sql: true
+        format_sql: true
+
+  thymeleaf:
+    prefix: file:src/main/resources/templates/
+    cache: false
+
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        one-indexed-parameters: true
+
+  profiles:
+    include: secret
+
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+
+alan:
+  client-id: ${ALAN_CLIENT_ID}
+  base-url: https://kdt-api-function.azurewebsites.net/api/v1
