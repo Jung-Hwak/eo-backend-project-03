@@ -15,7 +15,7 @@ import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
-class UserController {
+public class UserController {
 
     private final UserService userService;
 
