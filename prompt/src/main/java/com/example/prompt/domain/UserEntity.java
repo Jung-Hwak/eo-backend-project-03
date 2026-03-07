@@ -57,12 +57,12 @@ public class UserEntity {
     private LocalDateTime tokenResetAt;
 
     // 활성여부 - 탈퇴시 false
-    @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 1")
+    @Column(columnDefinition = "BOOLEAN DEFAULT TRUE")
     @Builder.Default
     private boolean active = true;
 
     // 계정 잠금 - 관리자가 잠금 처리
-    @Column(nullable = false, columnDefinition = "TINYINT(1) DEFAULT 0")
+    @Column(columnDefinition = "BOOLEAN DEFAULT FALSE")
     @Builder.Default
     private boolean locked = false;
 

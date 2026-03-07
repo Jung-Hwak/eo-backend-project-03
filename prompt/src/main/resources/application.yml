@@ -50,5 +50,5 @@ spring:
             enable: true
 
 alan:
-  client-id: ${ALAN_CLIENT_ID}
+  client-id: test-alan-key
   base-url: https://kdt-api-function.azurewebsites.net/api/v1

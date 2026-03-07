@@ -44,21 +44,21 @@ public class UserDto {
 
     // 사용 토큰량 (ERD: used_token)
     @Builder.Default
-    private int usedToken = 0;
+    private Integer usedToken = 0;
 
     // 토큰 초기화 일자 (ERD: token_reset_at)
     private LocalDateTime tokenResetAt;
 
     // 활성여부 - 탈퇴 시 false (ERD: active)
     @Builder.Default
-    private boolean active = true;
+    private Boolean active = true;
 
     // 계정 잠금 - 관리자 잠금 처리 (ERD: locked)
     @Builder.Default
-    private boolean locked = false;
+    private Boolean locked = false;
 
     // 약관 동의 (회원가입 시 사용)
-    private boolean agree;
+    private Boolean agree;
 
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
