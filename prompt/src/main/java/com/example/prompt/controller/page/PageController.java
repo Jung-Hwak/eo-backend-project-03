@@ -1,14 +1,18 @@
 package com.example.prompt.controller.page;
 
+import com.example.prompt.domain.PlanEntity;
 import com.example.prompt.dto.user.UserDto;
 import com.example.prompt.security.CustomUserDetails;
 import com.example.prompt.security.CustomOAuth2UserDetails;
+import com.example.prompt.service.PlanService;
 import com.example.prompt.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+
+import java.util.List;
 
 /**
  * 페이지 라우팅 Controller
@@ -19,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class PageController {
 
     private final UserService userService;
+    private final PlanService planService;
 
     @GetMapping("/")
     public String index(@AuthenticationPrincipal Object principal, Model model) {
@@ -46,17 +51,23 @@ public class PageController {
         return "signup";
     }
 
+    // 비밀번호 찾기 페이지
     @GetMapping("/reset-password")
     public String resetPassword(@AuthenticationPrincipal Object principal, Model model) {
         injectUser(principal, model);
         return "reset-password";
     }
 
+    //
     @GetMapping("/payment")
     public String payment(@AuthenticationPrincipal Object principal, Model model) {
         injectUser(principal, model);
+        List<PlanEntity> plans = planService.getAllPlans();
+        model.addAttribute("plans", plans);
         return "payment";
     }
+
+
 
     // 로그인한 유저 정보 model에 주입
     private void injectUser(Object principal, Model model) {
