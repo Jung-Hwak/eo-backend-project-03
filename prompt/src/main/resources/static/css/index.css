@@ -204,12 +204,12 @@
     content: '💬';
 }
 
-#feature-image > span::before {
-    content: '🖼️';
+#feature-summary > span::before {
+    content: '📄';
 }
 
-#feature-speed > span::before {
-    content: '⚡';
+#feature-youtube > span::before {
+    content: '▶️';
 }
 
 #features > div > div > div > h3 {

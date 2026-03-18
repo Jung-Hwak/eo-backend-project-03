@@ -144,6 +144,7 @@ class SecurityConfiguration {
                                 "/login", "/signup",
                                 "/reset-password",
                                 "/payment",
+                                "/guide",
                                 "/oauth2/**",
                                 "/login/oauth2/**",
                                 "/h2-console/**",
