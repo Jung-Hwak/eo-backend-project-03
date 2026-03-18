@@ -89,6 +89,13 @@ public class PageController {
         return "reset-password";
     }
 
+    // 도움말 페이지
+    @GetMapping("/guide")
+    public String guide(@AuthenticationPrincipal Object principal, Model model) {
+        injectUser(principal, model);
+        return "guide";
+    }
+
     // 로그인한 유저 정보 model에 주입
     private void injectUser(Object principal, Model model) {
         if (principal instanceof CustomUserDetails userDetails) {

@@ -21,6 +21,7 @@
         <a th:href="@{/}" id="nav-logo">Prompt AI</a>
         <div>
             <button id="dark-toggle" aria-label="다크모드 토글"></button>
+            <a th:href="@{/guide}" id="nav-guide">도움말</a>
 
             <th:block sec:authorize="!isAuthenticated()">
                 <a th:href="@{/login}">로그인</a>

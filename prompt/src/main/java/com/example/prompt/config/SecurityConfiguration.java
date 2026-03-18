@@ -32,9 +32,6 @@ class SecurityConfiguration {
         return config.getAuthenticationManager();
     }
 
-    /**
-     * JWT 체인 - /api/chat/** 제외 (세션 체인에서 처리)
-     */
     @Bean
     @Order(1)
     public SecurityFilterChain apiSecurityFilterChain(HttpSecurity http) throws Exception {
@@ -73,9 +70,6 @@ class SecurityConfiguration {
         return http.build();
     }
 
-    /**
-     * 세션 체인 - Form 로그인, OAuth2
-     */
     @Bean
     @Order(2)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
@@ -86,6 +80,7 @@ class SecurityConfiguration {
                                 "/login", "/signup",
                                 "/reset-password",
                                 "/payment",
+                                "/guide",
                                 "/oauth2/**",
                                 "/login/oauth2/**",
                                 "/h2-console/**",
