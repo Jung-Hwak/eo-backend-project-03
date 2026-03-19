@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>도움말 - Prompt AI</title>
+
+    <link rel="stylesheet" th:href="@{/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/css/common.css}">
+    <link rel="stylesheet" th:href="@{/css/guide.css}">
+    <link rel="stylesheet" th:href="@{/css/mypage.css}">
+
+    <script th:src="@{/js/common.js}"></script>
+    <script th:src="@{/js/mypage.js}"></script>
+    <script th:src="@{/js/guide.js}"></script>
+</head>
+<body>
+
+<!-- nav -->
+<nav id="nav">
+    <div>
+        <a th:href="@{/}" id="nav-logo">Prompt AI</a>
+        <div>
+            <button id="dark-toggle" aria-label="다크모드 토글"></button>
+            <th:block sec:authorize="isAuthenticated()">
+                <button type="button" id="mypage-btn" class="nav-mypage-btn">마이페이지</button>
+                <form th:action="@{/logout}" method="post" id="logout-form">
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    <button type="submit" class="nav-logout-btn">로그아웃</button>
+                </form>
+            </th:block>
+        </div>
+    </div>
+</nav>
+
+<!-- 마이페이지 팝업 -->
+<div th:insert="~{fragments/mypage-modal :: mypage-modal}"></div>
+
+<!-- guide -->
+<main id="guide">
+
+    <!-- 헤더 -->
+    <div id="guide-header">
+        <h1>도움말</h1>
+        <p>Prompt AI 사용 방법을 안내해 드립니다.</p>
+    </div>
+
+    <!-- 네비게이션 탭 -->
+    <nav id="guide-nav">
+        <button class="active" data-section="intro">서비스 소개</button>
+        <button data-section="plan">플랜 안내</button>
+        <button data-section="chat">AI 대화 사용법</button>
+        <button data-section="faq">자주 묻는 질문</button>
+    </nav>
+
+    <!-- 콘텐츠 -->
+    <div id="guide-content">
+
+        <!-- 서비스 소개 -->
+        <section id="section-intro" class="active">
+            <h2>서비스 소개</h2>
+            <div>
+                <h3>Prompt AI란?</h3>
+                <p>Prompt AI는 최신 AI 모델을 활용한 대화 플랫폼입니다. 질문, 분석, 창작 등 다양한 분야에서 AI의 도움을 받을 수 있습니다.</p>
+            </div>
+            <div>
+                <h3>주요 기능</h3>
+                <ul>
+                    <li>AI와 자연스러운 대화</li>
+                    <li>이미지 업로드 및 분석</li>
+                    <li>빠르고 안정적인 응답</li>
+                    <li>다양한 플랜으로 맞춤 이용</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 플랜 안내 -->
+        <section id="section-plan">
+            <h2>플랜 안내</h2>
+            <div>
+                <h3>NORMAL <span>무료</span></h3>
+                <ul>
+                    <li>월 10,000 토큰 제공</li>
+                    <li>알랜 4.0.1 모델 사용</li>
+                    <li>기본 AI 대화</li>
+                    <li>이미지 분석</li>
+                </ul>
+            </div>
+            <div>
+                <h3>PRO <span class="accent">9,900원 / 월</span></h3>
+                <ul>
+                    <li>월 100,000 토큰 제공</li>
+                    <li>알랜 4.0.2 모델 사용</li>
+                    <li>고급 AI 대화</li>
+                    <li>이미지 분석</li>
+                    <li>우선 응답 처리</li>
+                </ul>
+            </div>
+            <div>
+                <h3>MAX <span class="accent">19,900원 / 월</span></h3>
+                <ul>
+                    <li>월 500,000 토큰 제공</li>
+                    <li>알랜 4.0.3 모델 사용</li>
+                    <li>최상위 AI 대화</li>
+                    <li>이미지 분석</li>
+                    <li>우선 응답 처리</li>
+                    <li>전용 고객 지원</li>
+                </ul>
+            </div>
+            <div>
+                <h3>토큰이란?</h3>
+                <p>토큰은 AI와 대화할 때 사용되는 단위입니다. 질문과 답변 모두 토큰을 소모하며, 매월 1일에 초기화됩니다.</p>
+            </div>
+        </section>
+
+        <!-- AI 대화 사용법 -->
+        <section id="section-chat">
+            <h2>AI 대화 사용법</h2>
+            <div>
+                <h3>실시간 AI 대화</h3>
+                <p>알랜 AI와 자유롭게 대화할 수 있습니다. 대화의 맥락을 기억하기 때문에 이전에 나눈 내용을 바탕으로 연속적인 대화가 가능합니다.</p>
+                <ul>
+                    <li>질문, 분석, 창작 등 다양한 주제로 대화 가능</li>
+                    <li>이전 대화 내용을 기억해 자연스러운 흐름 유지</li>
+                    <li>방금 말한 내용을 이어서 심화 질문 가능</li>
+                </ul>
+            </div>
+            <div>
+                <h3>페이지 요약 / 번역</h3>
+                <p>웹페이지나 문서에서 복사한 텍스트를 붙여넣으면 AI가 핵심만 골라 요약해 드립니다. 긴 글도 빠르게 파악할 수 있습니다.</p>
+                <ul>
+                    <li>웹페이지, 문서, 기사 등 텍스트 복사 후 붙여넣기</li>
+                    <li>AI가 핵심 내용만 추출해 간결하게 요약</li>
+                    <li>원하는 언어로 번역도 함께 요청 가능</li>
+                </ul>
+            </div>
+            <div>
+                <h3>유튜브 자막 요약</h3>
+                <p>유튜브 영상을 직접 보지 않아도 됩니다. 자막을 복사해 붙여넣으면 AI가 챕터별로 정리해 핵심 내용을 요약해 드립니다.</p>
+                <ul>
+                    <li>유튜브 자막 텍스트 복사 후 붙여넣기</li>
+                    <li>챕터별로 구분해 체계적으로 요약</li>
+                    <li>긴 영상도 빠르게 내용 파악 가능</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- 자주 묻는 질문 -->
+        <section id="section-faq">
+            <h2>자주 묻는 질문</h2>
+            <div id="faq-list">
+                <div>
+                    <button>토큰은 언제 초기화되나요?</button>
+                    <div><p>토큰은 플랜 결제 30일에 자동 초기화됩니다.</p></div>
+                </div>
+                <div>
+                    <button>플랜은 언제든지 변경할 수 있나요?</button>
+                    <div><p>네, 언제든지 플랜 안내 페이지에서 업그레이드할 수 있습니다. 현재 플랜은 결제일로부터 30일간 유지됩니다.</p></div>
+                </div>
+                <div>
+                    <button>구글 계정으로 로그인할 수 있나요?</button>
+                    <div><p>네, 로그인 페이지에서 Google 로그인을 지원합니다.</p></div>
+                </div>
+                <div>
+                    <button>회원 탈퇴 후 재가입이 가능한가요?</button>
+                    <div><p>탈퇴 후 동일 아이디로의 재가입은 불가합니다. 새로운 아이디로 가입해 주세요.</p></div>
+                </div>
+            </div>
+        </section>
+
+    </div>
+</main>
+
+<!-- footer -->
+<footer id="footer">
+    <div>
+        <div>
+            <div>
+                <h3>Prompt AI</h3>
+                <p>누구나 쉽게 사용할 수 있는 AI 대화 플랫폼.<br>더 스마트한 일상을 만들어 드립니다.</p>
+            </div>
+            <div>
+                <h4>서비스</h4>
+                <ul>
+                    <li><a th:href="@{/}">홈</a></li>
+                    <li><a th:href="@{/payment}">플랜 안내</a></li>
+                    <li><a th:href="@{/chat}">AI 대화</a></li>
+                    <li><a href="#" class="mypage-open-btn">마이페이지</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4>고객지원</h4>
+                <ul>
+                    <li><a href="#">이용약관</a></li>
+                    <li><a href="#">개인정보처리방침</a></li>
+                    <li><a th:href="@{/guide}">도움말</a></li>
+                </ul>
+            </div>
+        </div>
+        <div>
+            <p>© 2026 Prompt AI. All rights reserved.</p>
+            <p>Made with ♥ by Doctrio Team</p>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

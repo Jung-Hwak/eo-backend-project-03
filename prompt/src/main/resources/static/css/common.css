@@ -337,3 +337,15 @@ a {
         text-align: center;
     }
 }
+/* 도움말 링크 */
+#nav-guide {
+    color: var(--text-secondary) !important;
+    background: transparent !important;
+    border-color: var(--border) !important;
+}
+
+#nav-guide:hover {
+    color: var(--text-primary) !important;
+    border-color: var(--text-muted) !important;
+    background: var(--accent-light) !important;
+}

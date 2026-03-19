@@ -38,9 +38,11 @@ public class AdminController {
     @GetMapping("/api/users")
     public ApiResponse<Page<AdminUserDto>> getUsers(
             @RequestParam(required = false, defaultValue = "") String keyword,
+            @RequestParam(required = false, defaultValue = "") String plan,
+            @RequestParam(required = false, defaultValue = "") String status,
             Pageable pageable
     ) {
-        return ApiResponse.ok(adminService.searchUsers(keyword, pageable));
+        return ApiResponse.ok(adminService.searchUsers(keyword, plan, status, pageable));
     }
 
     /**
@@ -112,6 +114,21 @@ public class AdminController {
     }
 
     /**
+     * 회원 상태 변경
+     */
+    @ResponseBody
+    @PatchMapping("/api/users/{userId}/status")
+    public ApiResponse<Void> changeUserStatus(
+            Authentication authentication,
+            @PathVariable Long userId,
+            @Valid @RequestBody AdminDto.ChangeStatusRequest request
+    ) {
+        String adminId = authentication.getName();
+        adminService.changeUserStatus(adminId, userId, request);
+        return ApiResponse.ok(null);
+    }
+
+    /**
      * 관리자 처리 이력 조회
      */
     @ResponseBody
@@ -131,6 +148,8 @@ public class AdminController {
         model.addAttribute(
                 "recentUsers",
                 adminService.searchUsers(
+                        "",
+                        "",
                         "",
                         PageRequest.of(0, 5, Sort.by(Sort.Direction.DESC, "createdAt"))
                 ).getContent()
@@ -153,18 +172,28 @@ public class AdminController {
     @GetMapping("/users")
     public String users(
             @RequestParam(defaultValue = "") String keyword,
+            @RequestParam(defaultValue = "") String plan,
+            @RequestParam(defaultValue = "") String status,
+            @RequestParam(defaultValue = "latest") String sort,
             @RequestParam(defaultValue = "0") int page,
             Model model
     ) {
-        Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdAt"));
-        Page<AdminUserDto> users = adminService.searchUsers(keyword, pageable);
+        Sort sortOption = sort.equals("oldest")
+                ? Sort.by(Sort.Direction.ASC, "createdAt")
+                : Sort.by(Sort.Direction.DESC, "createdAt");
+
+        Pageable pageable = PageRequest.of(page, 10, sortOption);
+
+        Page<AdminUserDto> users = adminService.searchUsers(keyword, plan, status, pageable);
 
         model.addAttribute("users", users);
         model.addAttribute("keyword", keyword);
+        model.addAttribute("plan", plan);
+        model.addAttribute("status", status);
+        model.addAttribute("sort", sort);
 
         return "admin/users";
     }
-
     /**
      * 관리자 처리 이력 페이지
      */
@@ -173,9 +202,10 @@ public class AdminController {
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(required = false, defaultValue = "") String adminId,
             @RequestParam(required = false, defaultValue = "") String actionType,
+            @RequestParam(required = false, defaultValue = "") String startDate,
+            @RequestParam(required = false, defaultValue = "") String endDate,
             Model model
     ) {
-
         Pageable pageable = PageRequest.of(page, 10, Sort.by(Sort.Direction.DESC, "createdAt"));
 
         Page<AdminActionLogDto> logs = adminService.getAdminActionLogs(pageable);
@@ -183,8 +213,40 @@ public class AdminController {
         model.addAttribute("logs", logs);
         model.addAttribute("adminId", adminId);
         model.addAttribute("actionType", actionType);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
 
         return "admin/logs";
     }
 
+    /**
+     * 관리자 플랜 / 정책 페이지
+     */
+    @GetMapping("/policies")
+    public String policies() {
+        return "admin/policies";
+    }
+
+    /**
+     * 통계 페이지
+     */
+    @GetMapping("/stats")
+    public String stats(
+            @RequestParam(defaultValue = "daily") String periodType,
+            @RequestParam(required = false, defaultValue = "") String startDate,
+            @RequestParam(required = false, defaultValue = "") String endDate,
+            @RequestParam(required = false, defaultValue = "") String planType,
+            @RequestParam(defaultValue = "0") int page,
+            Model model
+    ) {
+        AdminStatsDto stats = adminService.getStats(periodType, startDate, endDate, planType, page);
+
+        model.addAttribute("periodType", periodType);
+        model.addAttribute("startDate", startDate);
+        model.addAttribute("endDate", endDate);
+        model.addAttribute("planType", planType);
+        model.addAttribute("stats", stats);
+
+        return "admin/stats";
+    }
 }
